@@ -13,7 +13,7 @@ Sewon Min*, Eric Wallace*, Sameer Singh, Matt Gardner, Hannaneh Hajishirzi, Luke
 In: Proceedings of ACL (short). Florence, Italy. 2019.
 
 ```
-@inproceedings{Min2019Multihop,
+@inproceedings{min2019compositional,
     Author = {Sewon Min and Eric Wallace and Sameer Singh and Matt Gardner and Hannaneh Hajishirzi and Luke Zettlemoyer},
     Booktitle = {Association for Computational Linguistics},
     Year = {2019},

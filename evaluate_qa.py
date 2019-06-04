@@ -7,8 +7,7 @@ import numpy as np
 import tokenization
 from collections import defaultdict
 
-from squad_official_evaluation import f1_score as squad_f1_score
-
+from hotpot_evaluate_v1 import f1_score
 
 rawResult = collections.namedtuple("RawResult",
                                   ["unique_id", "start_logits", "end_logits"])
@@ -179,7 +178,7 @@ def write_predictions(logger, all_examples, all_features, all_results, n_best_si
         with open(output_nbest_file, "w") as writer:
             writer.write(json.dumps(all_nbest_json, indent=4) + "\n")
 
-    f1_scores = [max([squad_f1_score(prediction, gt) for gt in groundtruth]) for \
+    f1_scores = [max([f1_score(prediction, gt)[0] for gt in groundtruth]) for \
                     (prediction, groundtruth) in all_predictions.values()]
 
     return np.mean(f1_scores)

@@ -8,9 +8,8 @@ import torch
 from torch.utils.data import TensorDataset, DataLoader, RandomSampler, SequentialSampler
 from torch.utils.data.distributed import DistributedSampler
 
-from prepro_util import detect_span, retrieve_tfidf
+from prepro_util import *
 from hotpot_evaluate_v1 import f1_score as hotpot_f1_score
-from Example import *
 
 def get_dataloader(logger, args, input_file, is_training, \
                    batch_size, num_epochs, tokenizer):

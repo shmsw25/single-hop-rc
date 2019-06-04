@@ -4,7 +4,6 @@ import argparse
 
 import numpy as np
 from tqdm import tqdm
-from hotpot_util import find_span
 
 title_s = "<title>"
 title_e = "</title>"
@@ -161,6 +160,46 @@ def load_hotpot(args, data_type, only_bridge=False, only_comparison=False,
            (np.mean(n_paras), np.mean(n_gold_paras), np.mean(n_paras_with_answer), np.mean(n_sents), np.mean(n_answers)))
 
     return data_list
+
+def find_span(context, answer):
+    if answer not in context or answer.strip().lower() in ['yes', 'no']:
+        return None
+    tokens = context.split(' ')
+    offset = 0
+    spans = []
+    scanning = None
+
+    for i, token in enumerate(tokens):
+        while context[offset:offset+len(token)] != token:
+            offset += 1
+            if offset >= len(context):
+                break
+        if scanning is not None:
+            if answer.endswith(token):
+                end = offset + len(token)
+                if context[scanning[-1]:end] == answer:
+                    spans.append(scanning[0])
+                elif len(context[scanning[-1]:end]) >= len(answer):
+                    scanning = None
+        if answer.startswith(token):
+            if token == answer:
+                spans.append(offset)
+            if token != answer:
+                scanning = [offset]
+        offset += len(token)
+        if offset >= len(context):
+            break
+
+    answers = []
+
+    for span in spans:
+        if context[span:span+len(answer)] != answer:
+            print (context[span:span+len(answer)], answer)
+            print (context)
+            assert False
+        answers.append({'text': answer, 'answer_start': span})
+    return answers
+
 
 
 if __name__ == '__main__':

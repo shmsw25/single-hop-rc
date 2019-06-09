@@ -13,11 +13,12 @@ Sewon Min*, Eric Wallace*, Sameer Singh, Matt Gardner, Hannaneh Hajishirzi, Luke
 In: Proceedings of ACL (short). Florence, Italy. 2019.
 
 ```
-@inproceedings{min2019compositional,
-    Author = {Sewon Min and Eric Wallace and Sameer Singh and Matt Gardner and Hannaneh Hajishirzi and Luke Zettlemoyer},
-    Booktitle = {Association for Computational Linguistics},
-    Year = {2019},
-    Title = {Compositional Questions Do Not Necessitate Multi-hop Reasoning}}
+@inproceedings{ min2019compositional,
+    title = { Compositional Questions Do Not Necessitate Multi-hop Reasoning },
+    author = { Min, Sewon and Wallace, Eric and Singh, Sameer and Gardner, Matt and Hajishirzi, Hannaneh and Zettlemoyer, Luke },
+    booktitle = { ACL },
+    year = { 2019 }
+}
 ```
 
 For any question, please contact [Sewon Min](https://shmsw25.github.io) and [Eric Wallace](http://www.ericswallace.com/).

@@ -9,7 +9,7 @@ This is primarily for [HotpotQA](https://hotpotqa.github.io). However, for any t
 This code is used in the following paper:
 
 Sewon Min*, Eric Wallace*, Sameer Singh, Matt Gardner, Hannaneh Hajishirzi, Luke Zettlemoyer.
-[Compositional Questions Do Not Necessitate Multi-hop Reasoning](TODOLINK)
+[Compositional Questions Do Not Necessitate Multi-hop Reasoning](https://arxiv.org/pdf/1906.02900.pdf)
 In: Proceedings of ACL (short). Florence, Italy. 2019.
 
 ```
@@ -41,7 +41,8 @@ First, download the pre-trained BERT Tensorflow models from [Google](https://git
 
 Next, convert the model to PyTorch:
 
-```pytorch_pretrained_bert convert_tf_checkpoint_to_pytorch \
+```
+pytorch_pretrained_bert convert_tf_checkpoint_to_pytorch \
   --tf_checkpoint_path bert/bert_model.ckpt \
   --bert_config_file bert/bert_config.json \
   --pytorch_dump_path bert/pytorch_model.bin

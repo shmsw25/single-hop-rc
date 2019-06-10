@@ -1,12 +1,6 @@
 # Single-hop Reading Comprehension Model
 
-This is a general-purpose reading comprehension model based on BERT, which takes a set of paragraphs as an input but is incapable of cross-paragraph reasoning.
-
-![model_diagram](model_diagram.png "model_diagram")
-
-This is primarily for [HotpotQA](https://hotpotqa.github.io). However, for any task which input is a question and (one or more) paragraphs and the output is the answer (span from the paragraph/yes/no) to the question, you can use this code.
-
-This code is used in the following paper:
+This code is for the following paper:
 
 Sewon Min*, Eric Wallace*, Sameer Singh, Matt Gardner, Hannaneh Hajishirzi, Luke Zettlemoyer.
 [Compositional Questions Do Not Necessitate Multi-hop Reasoning](https://arxiv.org/pdf/1906.02900.pdf)
@@ -20,6 +14,13 @@ In: Proceedings of ACL (short). Florence, Italy. 2019.
     year = { 2019 }
 }
 ```
+
+This is a general-purpose reading comprehension model based on BERT, which takes a set of paragraphs as an input but is incapable of cross-paragraph reasoning.
+
+![model_diagram](model_diagram.png "model_diagram")
+
+This is primarily for [HotpotQA](https://hotpotqa.github.io). However, for any task which input is a question and (one or more) paragraphs and the output is the answer (span from the paragraph/yes/no) to the question, you can use this code.
+
 
 For any question, please contact [Sewon Min](https://shmsw25.github.io) and [Eric Wallace](http://www.ericswallace.com/).
 

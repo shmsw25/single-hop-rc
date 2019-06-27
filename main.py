@@ -217,10 +217,6 @@ def main():
             elif args.do_predict:
                 filter = lambda x: x[7:] if x.startswith('module.') else x
                 state_dict = {filter(k):v for (k,v) in state_dict.items()}
-                if args.transfer_only_bert:
-                    random_state_dict = dict(model.state_dict())
-                    state_dict = {k:v for k,v in state_dict.items() if k.startswith('bert')}
-                    state_dict = {k:state_dict.get(k, random_state_dict[k]) for k in random_state_dict}
                 model.load_state_dict(state_dict)
         model.to(device)
 

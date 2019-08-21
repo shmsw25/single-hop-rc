@@ -38,16 +38,7 @@ This code is based on a PyTorch version of Google's pretrained BERT model, from 
 
 There are multiple BERT models: BERT-Base Uncased, BERT-Large Uncased, BERT-Base Cased and BERT-Large Cased. This code is tested on BERT-Base Uncased. Using the larger model may improve results.
 
-First, download the pre-trained BERT Tensorflow models from [Google](https://github.com/google-research/bert#pre-trained-models) into a directory e.g., `bert`.
-
-Next, convert the model to PyTorch:
-
-```
-pytorch_pretrained_bert convert_tf_checkpoint_to_pytorch \
-  --tf_checkpoint_path bert/bert_model.ckpt \
-  --bert_config_file bert/bert_config.json \
-  --pytorch_dump_path bert/pytorch_model.bin
-```
+First, download the pre-trained BERT Tensorflow models from [here](https://drive.google.com/file/d/1XaMX-u5ZkWGH3f0gPrDtrBK1lKDU-QFk/view?usp=sharing). This is coverted from [Google](https://github.com/google-research/bert#pre-trained-models), uncased base version. Please unzip this zip file and rename the directory to `bert`.
 
 2. Convert HotpotQA into SQuAD style
 

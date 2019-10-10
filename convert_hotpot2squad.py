@@ -4,9 +4,12 @@ import argparse
 
 import numpy as np
 from tqdm import tqdm
+from tokenization import whitespace_tokenize, BasicTokenizer
+
 
 title_s = "<title>"
 title_e = "</title>"
+tokenizer = BasicTokenizer()
 
 def save(data, dir_name, data_type):
     if not os.path.isdir(os.path.join('data', dir_name)):
@@ -79,6 +82,7 @@ def load_hotpot(args, data_type, only_bridge=False, only_comparison=False,
         sfs = [(_process_sent(t), s) for t, s in article['supporting_facts']]
         question = article['question']
         answer = article['answer'].strip()
+        cleaned_answer = ' '.join(tokenizer.tokenize(answer))
 
         para_with_sf = set()
         contexts_list, answers_list = [], []
@@ -96,14 +100,16 @@ def load_hotpot(args, data_type, only_bridge=False, only_comparison=False,
                 is_sf = (title, sent_idx) in sfs
                 if only_sf and not is_sf:
                     continue
-                contexts.append(sent.lower().strip())
+                tokens = tokenizer.tokenize(sent)
+                sent = ' '.join(tokens)
+                contexts.append(sent)
                 if is_sf:
                     para_with_sf.add(para_idx)
                     if answer in ['yes', 'no']:
                         answers.append({'text': answer, 'answer_start': -1})
-                    elif answer.lower() in contexts[-1]:
+                    else:
                         assert contexts[-1] == sent.lower().strip()
-                        curr_answers = find_span(contexts[-1], answer.lower())
+                        curr_answers = find_span(sent, tokens, cleaned_answer)
                         for i, curr_answer in enumerate(curr_answers):
                             curr_answers[i]['answer_start'] += offset
                         answers += curr_answers
@@ -161,43 +167,48 @@ def load_hotpot(args, data_type, only_bridge=False, only_comparison=False,
 
     return data_list
 
-def find_span(context, answer):
-    if answer not in context or answer.strip().lower() in ['yes', 'no']:
-        return None
-    tokens = context.split(' ')
+
+def find_span(context, tokens, answer):
     offset = 0
     spans = []
     scanning = None
-
+    process = []
     for i, token in enumerate(tokens):
-        while context[offset:offset+len(token)] != token:
+        while context[offset:offset+len(token)]!=token:
             offset += 1
             if offset >= len(context):
                 break
         if scanning is not None:
-            if answer.endswith(token):
-                end = offset + len(token)
-                if context[scanning[-1]:end] == answer:
-                    spans.append(scanning[0])
-                elif len(context[scanning[-1]:end]) >= len(answer):
+            end = offset + len(token)
+            if answer.startswith(context[scanning[-1][-1]:end]):
+                if context[scanning[-1][-1]:end] == answer:
+                    span = (scanning[0][0], i, scanning[0][1])
+                    spans.append(span)
+                elif len(context[scanning[-1][-1]:end]) >= len(answer):
                     scanning = None
-        if answer.startswith(token):
+            else:
+                scanning = None
+        if scanning is None and answer.startswith(token):
             if token == answer:
-                spans.append(offset)
+                spans.append((i, i, offset))
             if token != answer:
-                scanning = [offset]
+                scanning = [(i, offset)]
         offset += len(token)
         if offset >= len(context):
             break
+        process.append((token, offset, scanning, spans))
 
     answers = []
 
-    for span in spans:
-        if context[span:span+len(answer)] != answer:
+    for word_start, word_end, span in spans:
+        if context[span:span+len(answer)] != answer or ''.join(tokens[word_start:word_end+1]).replace('##', '')!=answer.replace(' ', ''):
             print (context[span:span+len(answer)], answer)
             print (context)
-            assert False
-        answers.append({'text': answer, 'answer_start': span})
+            print ("Detected span  does not match with the answer")
+            from IPython import embed; embed()
+            exit()
+        answers.append({'text': answer, 'answer_start': span, 'word_start': word_start, 'word_end': word_end})
+
     return answers
 
 
